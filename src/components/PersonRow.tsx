@@ -1,21 +1,15 @@
-import { FC, useMemo } from 'react';
+import { FC, memo } from 'react';
 import { Person } from '../types';
 import { PersonLink } from './PeopleTable/PersonLink';
-import { useParams } from 'react-router-dom';
 import cn from 'classnames';
 
 interface Props {
   person: Person;
+  isHighlighted: boolean;
 }
 
-export const PersonRow: FC<Props> = ({ person }) => {
+export const PersonRow: FC<Props> = memo(({ person, isHighlighted }) => {
   const { sex, born, died, motherName, fatherName } = person;
-  const { personSlug } = useParams();
-
-  const isHighlighted = useMemo(
-    () => personSlug === person.slug,
-    [personSlug, person.slug],
-  );
 
   return (
     <tr
@@ -45,8 +39,6 @@ export const PersonRow: FC<Props> = ({ person }) => {
       )}
     </tr>
   );
-};
+});
 
-// PersonRow.displayName = 'PersonRow';
-// 'has-background-warning': person.sex === 'm',
-/* <td>{fatherName || '-'}</td> */
+PersonRow.displayName = 'PersonRow';

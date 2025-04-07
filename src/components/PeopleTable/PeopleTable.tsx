@@ -3,6 +3,7 @@ import { Person } from '../../types';
 import { getPeople } from '../../api';
 import { PersonRow } from '../PersonRow';
 import { Loader } from '../Loader';
+import { useParams } from 'react-router-dom';
 
 export const PeopleTable = () => {
   const [people, setPeople] = useState<Person[]>([]);
@@ -34,6 +35,8 @@ export const PeopleTable = () => {
       setIsLoading(false);
     }
   };
+
+  const { personSlug } = useParams();
 
   useEffect(() => {
     fetchPeople();
@@ -74,7 +77,15 @@ export const PeopleTable = () => {
 
                 <tbody>
                   {people.map(person => {
-                    return <PersonRow person={person} key={person.slug} />;
+                    const isHighlighted = personSlug === person.slug;
+
+                    return (
+                      <PersonRow
+                        person={person}
+                        key={person.slug}
+                        isHighlighted={isHighlighted}
+                      />
+                    );
                   })}
                 </tbody>
               </table>
